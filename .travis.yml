@@ -13,6 +13,7 @@ script:
   - gulp generic
   - mkdir ../html
   - mv ../Dockerfile ../index.pdf ../index.html build/ web/ -t ../html
+  - cd ../html
 
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login --password-stdin --username="$DOCKER_USERNAME" hkccr.ccs.tencentyun.com
