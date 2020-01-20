@@ -12,7 +12,8 @@ script:
   - npm install -g gulp-cli
   - gulp generic
   - mkdir ../html
-  - mv ../Dockerfile ../index.pdf ../index.html build/generic/* -t ../html
+  - mv ../Dockerfile ../index.html build/generic/* -t ../html
+  - mv ../index.pdf ../html/web
   - cd ../html
 
 after_success:
