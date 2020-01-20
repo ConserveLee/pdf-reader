@@ -3,24 +3,18 @@ language: node_js
 node_js:
   13.6.0
 
-jobs:
-  include:
-    - stage: get pdf.js
-      script:
-      - git clone https://github.com/mozilla/pdf.js.git
-      - cd pdf.js
-    - stage: build web files
-      script:
-        - npm install
-        - yarn add gulp -g
-        - npm install -g gulp-cli
-        - gulp generic
-    - stage: makefile
-      script:
-        - mkdir ../html
-        - mv ../Dockerfile ../index.pdf ../index.html build/ web/ -t ../html
-    - stage: build image
-      script:
-        - echo "$DOCKER_PASSWORD" | docker login --password-stdin --username="$DOCKER_USERNAME" hkccr.ccs.tencentyun.com
-        - docker build -t hkccr.ccs.tencentyun.com/image-hub/pdf-reader .
-        - docker push hkccr.ccs.tencentyun.com/image-hub/pdf-reader
+
+script:
+  - git clone https://github.com/mozilla/pdf.js.git
+  - cd pdf.js
+  - npm install
+  - yarn add gulp -g
+  - npm install -g gulp-cli
+  - gulp generic
+  - mkdir ../html
+  - mv ../Dockerfile ../index.pdf ../index.html build/ web/ -t ../html
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login --password-stdin --username="$DOCKER_USERNAME" hkccr.ccs.tencentyun.com
+  - docker build -t hkccr.ccs.tencentyun.com/image-hub/pdf-reader .
+  - docker push hkccr.ccs.tencentyun.com/image-hub/pdf-reader
